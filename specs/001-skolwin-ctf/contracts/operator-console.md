@@ -10,12 +10,16 @@ After each discover or verify action, print:
 - the check outcome (flag found / error summary, not the full hub dump)
 - remaining discover uses and remaining verify uses
 
-At the end, print `{FLG:...}` when present.
+At the end, print `{FLG:...}` when present, or a plain-language stop reason
+when the run ends without a flag (discover limit, verify limit, or planning
+ended). Progress, remaining uses, the flag, and that stop reason all go to
+stdout (constitution Principle IV).
 
 ## Standard error
 
-Startup failures, limit-reached stop reasons, and unexpected errors. No
-secrets.
+Startup failures (missing secrets, invalid blank config) and unexpected
+errors. No secrets. Limit-reached and planning-ended stop reasons are not
+stderr; they are stdout.
 
 ## Exit codes
 
@@ -27,4 +31,4 @@ secrets.
 
 ## Files
 
-Logback also writes the same redacted traces to `logs/s03e02.log`.
+Logback also writes the same redacted traces to `logs/s03e05.log`.

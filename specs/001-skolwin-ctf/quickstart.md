@@ -20,7 +20,7 @@ $env:JAVA_HOME = "C:\tools\jdk-23.0.2"
 mvn -q -DskipTests package
 ```
 
-Expected: `target/s03e02-*.jar` (group `pl.tomaszko`, artifact `s03e02`).
+Expected: `target/s03e05-*.jar` (group `pl.tomaszko`, artifact `s03e05`).
 
 ## Configure
 
@@ -36,6 +36,9 @@ Defaults in `src/main/resources/application.yaml` (override as needed):
 | `app.hub.task` | `savethem` |
 | `app.tools.discover-limit` | `30` |
 | `app.tools.verify-limit` | `10` |
+| `app.briefing.destination` | `Skolwin` |
+| `app.briefing.map-width` / `map-height` | `10` / `10` |
+| `app.briefing.starting-fuel` / `starting-food` | `10` / `10` |
 | `app.prompt.system` | interpolated `prompts/system.txt` |
 
 See [data-model.md](./data-model.md) and [contracts/](./contracts/).
@@ -49,7 +52,7 @@ $env:HUB_API_KEY = "..."
 mvn -q spring-boot:run
 ```
 
-Or `java -jar target/s03e02-*.jar` with the same env vars. Do not pass argv.
+Or `java -jar target/s03e05-*.jar` with the same env vars. Do not pass argv.
 
 ## Expected live outcome
 
@@ -58,9 +61,9 @@ Or `java -jar target/s03e02-*.jar` with the same env vars. Do not pass argv.
 3. Stdout shows each discover query, each verify outcome, and remaining uses
    ([operator-console.md](./contracts/operator-console.md)).
 4. On success: `{FLG:...}` on stdout and exit `0`.
-5. On limit: stop reason on stderr and exit `1`.
-6. Missing keys: fail before any hub/OpenRouter call, exit `2`.
-7. `logs/s03e02.log` contains redacted model prompts (system, tools, user)
+5. On limit or planning failure: stop reason on stdout and exit `1`.
+6. Missing keys: fail before any hub/OpenRouter call, stop reason on stderr, exit `2`.
+7. `logs/s03e05.log` contains redacted model prompts (system, tools, user)
    and tool parameters/results. Keys do not appear.
 
 ## Automated checks (no live keys required)

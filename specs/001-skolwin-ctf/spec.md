@@ -29,6 +29,7 @@
 - Q: Empty or non-list verify `answer`? → A: Reject locally; no hub call; no budget decrement
 - Q: Wall-clock or extra turn cap? → A: No — stop only on flag or tool limits
 - Q: Is a verify flag enough for remaining fuel and food? → A: Yes — the flag is that evidence
+- Q: Where do limit/planning stop reasons print? → A: Stdout, with the flag and session progress. Stderr is startup failures and unexpected errors only (constitution Principle IV)
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -119,7 +120,7 @@ When verification rejects a trip, the planner reads the error. It may ask more d
 - **FR-015**: When verification succeeds, the response contains the flag as a `{FLG:...}` string. The program MUST show that flag to the operator and shut down immediately.
 - **FR-016**: When verification fails, the program MUST inspect the error. While unused discovery attempts remain, it MAY send further discovery requests to fill gaps the error revealed. It MUST then change the trip plan and resubmit while unused verification attempts remain.
 - **FR-017**: The program MUST NOT send more verification requests than the configured verify limit in one run (default 10). Configuration is authoritative. Reaching that limit without the flag MUST shut the program down immediately.
-- **FR-018**: On shutdown after a limit or unrecoverable error, the program MUST report a clear failure reason to the operator and MUST NOT reveal secrets.
+- **FR-018**: On shutdown after a limit or planning failure, the program MUST print a clear stop reason on standard output and MUST NOT reveal secrets. Startup failures and unexpected errors MUST go to standard error (exit 2 path). The flag, session progress, remaining uses, and limit/planning stop reasons MUST go to standard output.
 - **FR-019**: The program's messages MUST include each discovery question sent, each trip-check outcome, the remaining discovery and verification uses after each of those actions, and the final flag or stop reason. Messages MUST hide secrets. Full discovery answers and full submitted trip text are not required in those messages.
 - **FR-020**: The map the planner works from MUST be treated as 10 by 10 tiles and MAY include rivers, trees, rocks, and other terrain learned from discovery.
 - **FR-021**: Required runtime secrets MUST be `OPENROUTER_API_KEY` (planner / OpenRouter) and `HUB_API_KEY` (game hub). They MUST be read from the environment or an uncommitted local secrets file at startup. Missing secrets MUST stop the program immediately with exit status 2, before any hub or planner-model call.

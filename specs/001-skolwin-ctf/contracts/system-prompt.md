@@ -49,9 +49,9 @@ Placeholder map (defaults in parentheses):
 
 | Placeholder | Property | Default |
 |-------------|----------|---------|
-| `${destination}` | briefing | `Skolwin` |
-| `${mapWidth}` / `${mapHeight}` | briefing | `10` / `10` |
-| `${startingFuel}` / `${startingFood}` | briefing | `10` / `10` |
+| `${destination}` | `app.briefing.destination` | `Skolwin` |
+| `${mapWidth}` / `${mapHeight}` | `app.briefing.map-width` / `map-height` | `10` / `10` |
+| `${startingFuel}` / `${startingFood}` | `app.briefing.starting-fuel` / `starting-food` | `10` / `10` |
 | `${hubBaseUrl}` | `app.hub.base-url` | `https://hub.ag3nts.org` |
 | `${toolsearchPath}` | `app.hub.toolsearch-path` | `/api/toolsearch` |
 | `${discoverLimit}` | `app.tools.discover-limit` | `30` |

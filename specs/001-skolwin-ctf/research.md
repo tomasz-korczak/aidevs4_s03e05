@@ -37,11 +37,10 @@
 
 ## Decision: Maven coordinates
 
-- **Decision**: `groupId=pl.tomaszko`, `artifactId=s03e02`, packaging `jar`.
-- **Rationale**: Requested build identity. Application class
-  `pl.tomaszko.s03e02.S03e02Application`.
-- **Alternatives considered**: Matching the folder name `s03e05` (rejected;
-  user set the artifact name).
+- **Decision**: `groupId=pl.tomaszko`, `artifactId=s03e05`, packaging `jar`.
+- **Rationale**: Matches the exercise/repository name. Application class
+  `pl.tomaszko.s03e05.S03e05Application`.
+- **Alternatives considered**: `s03e02` (earlier typo; corrected to `s03e05`).
 
 ## Decision: Console one-shot runtime, not a web server
 
@@ -57,9 +56,11 @@
 ## Decision: `@Tool` methods + auto `ToolCallingAdvisor`
 
 - **Decision**: `DiscoverTool` and `VerifyTool` are Spring beans with `@Tool`
-  / `@ToolParam`. `ChatClient.prompt().system(...).user(...).tools(...).call()`
-  lets `ToolCallingAdvisor` run the loop until the model stops calling tools
-  or a tool signals stop (`returnDirect` when flag found or budget exhausted).
+  / `@ToolParam`. `ChatClientConfig` is the only place that calls
+  `ChatClient.tools(...)`. `PlannerRunner` uses that bean with
+  `prompt().system(...).user(...).call()` and MUST NOT register tools
+  again. `ToolCallingAdvisor` runs the loop until the model stops or a
+  tool signals stop (`returnDirect` when flag found or budget exhausted).
 - **Rationale**: User asked for Spring AI annotations. 2.0 owns the tool loop
   in the advisor chain. Tools enforce budgets and the first-path rule in Java
   so the model cannot bypass them.
@@ -97,7 +98,7 @@
 
 ## Decision: Logging — console + file, plus two advisors
 
-- **Decision**: Logback CONSOLE and FILE (`logs/s03e02.log`).
+- **Decision**: Logback CONSOLE and FILE (`logs/s03e05.log`).
   `ModelCommunicationAdvisor` sits inside the tool loop and logs system
   prompt, tool definitions, user prompt, and model response.
   `ToolExecutionLogger` logs each tool name, parameters, and result.
@@ -112,9 +113,11 @@
 
 - **Decision**: `src/main/resources/prompts/system.txt` is a template with
   placeholders for discover limit, verify limit, hub base URL, toolsearch
-  path, verify path, task name, destination, briefing defaults. Bound through
-  `app.prompt.system` override (optional) or the file default.
-  `SystemPromptFactory` interpolates `AppProperties`.
+  path, verify path, task name, and briefing fields (`destination`, map
+  size, starting fuel/food). Bound through `app.prompt.system` override
+  (optional) or the file default. `SystemPromptFactory` interpolates
+  `AppProperties` including nested `app.briefing.*` (not hardcoded
+  constants).
 - **Rationale**: Prompt is parametrized and includes tool-use rules. File
   keeps YAML readable; `app.prompt.system` still allows a full override.
   Full template: [contracts/system-prompt.md](./contracts/system-prompt.md).

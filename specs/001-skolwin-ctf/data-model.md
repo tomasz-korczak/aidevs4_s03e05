@@ -18,9 +18,15 @@ Configuration bound once at startup (`app.*` plus Spring AI OpenAI keys).
 | tools.discoverLimit | int | 30 | `app.tools.discover-limit` |
 | tools.verifyLimit | int | 10 | `app.tools.verify-limit` |
 | prompt.system | string | file `prompts/system.txt` | `app.prompt.system` |
+| briefing.destination | string | `Skolwin` | `app.briefing.destination` |
+| briefing.mapWidth | int | 10 | `app.briefing.map-width` |
+| briefing.mapHeight | int | 10 | `app.briefing.map-height` |
+| briefing.startingFuel | int | 10 | `app.briefing.starting-fuel` |
+| briefing.startingFood | int | 10 | `app.briefing.starting-food` |
 
-Validation: api keys and URLs MUST be non-blank; limits MUST be > 0.
+Validation: api keys and URLs MUST be non-blank; limits, map dimensions, and starting resources MUST be > 0; destination MUST be non-blank.
 Configuration is authoritative for discover and verify limits (defaults 30 and 10).
+`SystemPromptFactory` interpolates briefing fields from this object, not from hardcoded constants.
 
 ## ToolBudget
 

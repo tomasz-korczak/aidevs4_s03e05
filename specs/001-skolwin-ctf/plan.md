@@ -37,7 +37,7 @@ tools; configured discover/verify limits (defaults 30 and 10, config
 authoritative); first discover path forced to `/api/toolsearch`; secrets from
 env; logs must redact keys; no vehicle-to-vehicle switch; no extra time cap
 
-**Scale/Scope**: One Maven module (`pl.tomaszko:s03e02`); two tools; one planner
+**Scale/Scope**: One Maven module (`pl.tomaszko:s03e05`); two tools; one planner
 conversation; 10×10 map briefing defaults
 
 ## Constitution Check
@@ -49,7 +49,7 @@ conversation; 10×10 map briefing defaults
 | I. Console Application, No Parameters | PASS | `ApplicationRunner` ignores argv; no CLI parser; config from env / `application.yaml` |
 | II. One-Shot Autonomous Execution | PASS | `web-application-type=none`; runner starts the ChatClient tool loop and `SpringApplication.exit` |
 | III. OpenRouter LLM Access | PASS | OpenAI-compatible starter pointed at OpenRouter; `OPENROUTER_API_KEY` required at startup |
-| IV. Flag-Centric Outcome | PASS | Flag to stdout; failure reason to stderr; secrets never logged or printed |
+| IV. Flag-Centric Outcome | PASS | Flag, progress, remaining uses, and limit/planning stop reason to stdout; startup and unexpected errors to stderr; secrets never logged or printed |
 | V. Minimal Scope | PASS | No web API, no extra agent platform; only ChatClient, two `@Tool` methods, hub client, logging |
 
 Post-design re-check: still PASS. File logging and advisors exist only to satisfy
@@ -80,12 +80,13 @@ specs/001-skolwin-ctf/
 ```text
 pom.xml
 .env.example
-src/main/java/pl/tomaszko/s03e02/
-├── S03e02Application.java
+src/main/java/pl/tomaszko/s03e05/
+├── S03e05Application.java
 ├── config/
 │   ├── AppProperties.java
 │   ├── ChatClientConfig.java
-│   └── HubClientConfig.java
+│   ├── HubClientConfig.java
+│   └── SecretsValidator.java
 ├── hub/
 │   ├── HubClient.java
 │   ├── DiscoverRequest.java
@@ -98,6 +99,7 @@ src/main/java/pl/tomaszko/s03e02/
 │   └── ToolBudget.java
 ├── session/
 │   ├── GameSession.java
+│   ├── OperatorReporter.java
 │   └── RunOutcome.java
 ├── prompt/
 │   └── SystemPromptFactory.java
@@ -111,7 +113,7 @@ src/main/resources/
 ├── application.yaml
 ├── logback-spring.xml
 └── prompts/system.txt
-src/test/java/pl/tomaszko/s03e02/
+src/test/java/pl/tomaszko/s03e05/
 ├── tools/
 ├── hub/
 ├── prompt/

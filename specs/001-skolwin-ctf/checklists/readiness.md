@@ -37,7 +37,7 @@
 - [x] CHK019 Are discover/verify limits specified as fixed 30/10 in the spec while also parametrized in the plan, and is the spec's normative default vs override rule stated? [Conflict, Spec §FR-007, §FR-017, Plan AppProperties]
 - [x] CHK020 Do FR-003 (commands unknown at start) and FR-024 (briefing defaults) agree that command lists and map contents are never briefing defaults? [Consistency, Spec §FR-003, §FR-024, Assumptions]
 - [x] CHK021 Do FR-013 (disband and continue on foot) and the assumption "any mix of discovered vehicles" agree on whether vehicle-to-vehicle change without walking is allowed? [Conflict, Spec §FR-013, Assumptions]
-- [x] CHK022 Do FR-015 / constitution (flag to stdout, failures to stderr) and FR-019 (session messages) assign each message type to stdout vs stderr without overlap? [Consistency, Spec §FR-015, §FR-018, §FR-019]
+- [x] CHK022 Do FR-015 / constitution (flag, progress, and limit/planning stop reason to stdout; startup and unexpected errors to stderr) and FR-019 assign each message type without overlap? [Consistency, Spec §FR-015, §FR-018, §FR-019]
 - [x] CHK023 Does the spec's "discovery/verification service" language match the plan's two named tools and hub URLs, or is a glossary mapping required? [Consistency, Spec §FR-004, §FR-014, Plan contracts/llm-tools.md]
 
 ## Acceptance Criteria Quality
