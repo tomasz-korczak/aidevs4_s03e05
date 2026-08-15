@@ -1,0 +1,38 @@
+spring:
+  main:
+    web-application-type: none
+    banner-mode: off
+  ai:
+    openai:
+      api-key: ${OPENROUTER_API_KEY:}
+      base-url: ${app.openrouter.base-url}
+      chat:
+        options:
+          model: ${app.llm.model}
+
+app:
+  hub:
+    api-key: ${HUB_API_KEY:}
+    base-url: https://hub.ag3nts.org
+    toolsearch-path: /api/toolsearch
+    verify-path: /verify
+    task: savethem
+  openrouter:
+    base-url: https://openrouter.ai/api/v1
+  llm:
+    model: x-ai/grok-4.6
+    retry:
+      max-attempts: 6
+      initial-backoff: 2s
+      max-backoff: 30s
+      multiplier: 2
+  tools:
+    discover-limit: 40
+    verify-limit: 5
+    discover-delay: 10s
+  briefing:
+    destination: Skolwin
+    map-width: 10
+    map-height: 10
+    starting-fuel: 10
+    starting-food: 10
